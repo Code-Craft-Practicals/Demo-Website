@@ -42,12 +42,12 @@ As part of our **Community Engagement Project**, we conduct engaging workshops o
 
 | Name             | Role & Responsibility                                                                 |
 |------------------|----------------------------------------------------------------------------------------|
-| **Sneha Gond**   | *Founder, Trainee* – Initiated Code Craft, leads and trains during sessions           |
+| **Sneha Gond**   | *Founder, Trainee, Data Analyst* – Initiated Code Craft, leads and trains during sessions           |
 | **Aryan Maurya** | *Co-Founder, Mentor & Trainee* – Co-leads and mentors sessions, helps structure plans |
 | **Rohit Khetan** | *Content Creator* – Designs the syllabus and prepares informative notes                |
 | **Rahul Rai**    | *Coordinator & Co-Trainer* – Manages communication, records sessions, occasionally trains |
 | **Rajni Gupta**  | *Evaluation Lead* – Develops test papers, assists with assessments                     |
-| **Reynold D'Sa** | *Data & Scheduling Head* – Collects student data, organizes session timings            |
+
 
 ---
 
