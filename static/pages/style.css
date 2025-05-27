@@ -357,7 +357,7 @@ textarea:focus {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('static/images/codecraft.jpg') no-repeat center center;
+    background-image: url('static/images/codecraft.jpg') no-repeat ;
     background-size: cover;
     opacity: 0.1;
     z-index: 1;
@@ -1022,7 +1022,7 @@ section:nth-of-type(even) {
 }
 
 .founder-experience, .founder-vision {
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var (--spacing-md);
 }
 
 .founder-experience h4, .founder-vision h4 {
@@ -1965,7 +1965,7 @@ section:nth-of-type(even) {
     .form-group select,
     .form-group textarea {
         background-color: var(--background-color);
-        color: var(--text-color);
+        color: var (--text-color);
         border-color: var(--border-color);
     }
 
@@ -2137,7 +2137,7 @@ section:nth-of-type(even) {
 }
 
 .btn-secondary:hover {
-    background-color: var(--secondary-dark);
+    background-color: var (--secondary-dark);
 }
 
 .btn-success {
@@ -2246,4 +2246,179 @@ section:nth-of-type(even) {
         transform: scale(1);
         opacity: 1;
     }
+}
+
+/* Best Student Work Section */
+.student-work-section {
+    padding: 60px 0;
+    position: relative;
+    background: var(--section-bg, #f8f9fb);
+}
+
+.student-work-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.student-work-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    overflow: hidden;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.student-work-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+}
+
+.project-image img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background: #eaeaea;
+    display: block;
+}
+
+.project-content {
+    padding: 20px 18px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.project-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #1a2236;
+}
+
+.student-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+    gap: 10px;
+}
+
+.student-photo {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #4f8cff;
+    background: #eaeaea;
+}
+
+.student-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.project-links {
+    margin-top: auto;
+    display: flex;
+    gap: 14px;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.98rem;
+    color: #4f8cff;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid #e3e8f0;
+    border-radius: 6px;
+    padding: 6px 12px;
+    background: #f5faff;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+.project-link:hover {
+    background: #4f8cff;
+    color: #fff;
+    border-color: #4f8cff;
+}
+
+.project-link i {
+    font-size: 1.1em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .student-work-grid {
+        gap: 24px;
+    }
+    .student-work-card {
+        width: 90vw;
+        max-width: 370px;
+    }
+}
+
+@media (max-width: 600px) {
+    .student-work-section {
+        padding: 36px 0;
+    }
+    .student-work-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+    }
+    .student-work-card {
+        width: 98vw;
+        max-width: 99vw;
+    }
+}
+
+/* Best Student Work Section - Matched Card Colors */
+.student-work-section {
+    padding: 60px 0;
+    position: relative;
+    background: var(--background-alt); /* matches alternating section bg */
+}
+
+.student-work-card {
+    background: var(--background-color); /* matches other cards */
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.student-work-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: var(--shadow-lg);
+}
+
+.project-title {
+    color: var(--text-color);
+}
+
+.student-name {
+    color: var(--text-color);
+}
+
+.project-link {
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
+    background: var(--background-alt);
+}
+
+.project-link:hover {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
 }
