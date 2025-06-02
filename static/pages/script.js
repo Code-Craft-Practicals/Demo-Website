@@ -1,11 +1,34 @@
-        // Intersection Observer for animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+/**
+ * CODE CRAFT - Main JavaScript File
+ * Handles animations, mobile menu, form submissions, and UI interactions
+ */
 
-        const observer = new IntersectionObserver((entries, observer) => {
+// Defer non-critical initialization
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Intersection Observer
+    initIntersectionObserver();
+    
+    // Initialize mobile menu
+    initMobileMenu();
+    
+    // Initialize form handling
+    initFormHandling();
+    
+    // Initialize popup handling
+    initPopupHandling();
+});
+
+// Intersection Observer for animations
+function initIntersectionObserver() {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    let observer;
+    try {
+        observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
@@ -13,98 +36,119 @@
                 }
             });
         }, observerOptions);
+    } catch (error) {
+        console.error('Intersection Observer not supported:', error);
+        return;
+    }
 
-        // Observe all sections
-        document.querySelectorAll('.section').forEach(section => {
-            observer.observe(section);
-        });
-
-        // Observe all section titles
-        document.querySelectorAll('.section-title').forEach(title => {
-            observer.observe(title);
-        });
-
-        // Observe all cards
-        document.querySelectorAll('.member-card, .workshop-card, .testimonial-card').forEach(card => {
-            observer.observe(card);
-        });
-
-        // Mobile menu toggle functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get the toggle button and nav links
-            const toggleButton = document.querySelector('.mobile-menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            
-            // Toggle menu when button is clicked
-            toggleButton.addEventListener('click', function() {
-                navLinks.classList.toggle('active');
-                toggleButton.classList.toggle('active');
+    // Observe elements with error handling
+    function observeElements(selector) {
+        try {
+            document.querySelectorAll(selector).forEach(element => {
+                if (observer) observer.observe(element);
             });
-            
-            // Close menu when a link is clicked
-            const links = document.querySelectorAll('.nav-link');
-            links.forEach(link => {
-                link.addEventListener('click', function() {
-                    navLinks.classList.remove('active');
-                    toggleButton.classList.remove('active');
-                });
-            });
-            
-            // Back to top button functionality
-            const backToTopButton = document.querySelector('.back-to-top');
-            
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > 300) {
-                    backToTopButton.classList.add('show');
-                } else {
-                    backToTopButton.classList.remove('show');
-                }
+        } catch (error) {
+            console.error(`Error observing ${selector}:`, error);
+        }
+    }
+
+    // Observe all sections, titles, and cards
+    observeElements('.section');
+    observeElements('.section-title');
+    observeElements('.member-card, .workshop-card, .testimonial-card');
+}
+
+// Mobile menu functionality
+function initMobileMenu() {
+    const toggleButton = document.querySelector('.mobile-menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (toggleButton && navLinks) {
+        toggleButton.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+            toggleButton.classList.toggle('active');
+        });
+    }
+    
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            if (navLinks && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                if (toggleButton) toggleButton.classList.remove('active');
+            }
+        });
+    });
+    
+    // Back to top button functionality
+    const backToTopButton = document.querySelector('.back-to-top');
+    if (backToTopButton) {
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            if (scrollTimeout) {
+                window.cancelAnimationFrame(scrollTimeout);
+            }
+            scrollTimeout = window.requestAnimationFrame(function() {
+                backToTopButton.classList.toggle('show', window.pageYOffset > 300);
             });
         });
+    }
+}
 
-        // Form submission handler
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
+// Form handling
+function initFormHandling() {
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const formData = new FormData(this);
-            
-            fetch(this.action, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
+            try {
+                const formData = new FormData(this);
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData
+                });
+                
                 if (response.ok) {
-                    // Show thank you popup
                     const popup = document.getElementById('thankYouPopup');
-                    popup.classList.add('active');
-                    
-                    // Reset form
-                    this.reset();
+                    if (popup) {
+                        popup.classList.add('active');
+                        this.reset();
+                    }
+                } else {
+                    throw new Error('Form submission failed');
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            } catch (error) {
+                console.error('Form submission error:', error);
+                // Show error message to user
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'error-message';
+                errorMessage.textContent = 'Sorry, there was an error submitting the form. Please try again.';
+                contactForm.appendChild(errorMessage);
+                setTimeout(() => errorMessage.remove(), 5000);
+            }
         });
+    }
+}
 
-        // Close popup when clicking anywhere
+// Popup handling
+function initPopupHandling() {
+    const popup = document.getElementById('thankYouPopup');
+    if (popup) {
+        const popupContent = popup.querySelector('.popup-content');
+        
+        // Close popup when clicking outside
         document.addEventListener('click', function(e) {
-            const popup = document.getElementById('thankYouPopup');
-            const popupContent = popup.querySelector('.popup-content');
-            
-            // Check if popup is active and click is outside popup content
-            if (popup.classList.contains('active') && !popupContent.contains(e.target)) {
+            if (popup.classList.contains('active') && popupContent && !popupContent.contains(e.target)) {
                 popup.classList.remove('active');
             }
         });
-
+        
         // Close popup when pressing Escape key
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                const popup = document.getElementById('thankYouPopup');
-                if (popup.classList.contains('active')) {
-                    popup.classList.remove('active');
-                }
+            if (e.key === 'Escape' && popup.classList.contains('active')) {
+                popup.classList.remove('active');
             }
         });
-    
+    }
+}
